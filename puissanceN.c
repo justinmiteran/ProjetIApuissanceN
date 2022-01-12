@@ -1,6 +1,10 @@
 #include "list.h"
 #include <math.h>
 #include "board.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 
 float minimax(Item* node, int depth, int player)
 {
