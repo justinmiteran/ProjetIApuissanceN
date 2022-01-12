@@ -4,7 +4,7 @@
 float minimax(Item* node, int depth, int player)
 {
   float value;
-  if (depth == 0 || evaluateBoard(node)== True)
+  if (depth == 0 || evaluateBoard(node)== true)
     {
       return node->g;
     }
@@ -13,7 +13,7 @@ float minimax(Item* node, int depth, int player)
       value =-30000;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
-          Item child = getChildBoard(node,i);
+          Item* child = getChildBoard(node,i);
           if (child != NULL)
             value = (fmaxf(value,minimax(child, depth+1, 1)));// Max entre value  et les valeurs des enfants du noeud.
         }
