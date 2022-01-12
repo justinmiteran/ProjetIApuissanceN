@@ -49,7 +49,8 @@ void initBoard(Item *node, char *board) {
 	node->size = WIDTH_BOARD*HEIGHT_BOARD;
   node->board = calloc(WIDTH_BOARD*HEIGHT_BOARD, sizeof(char));
   
-	for (int i=0; i< WIDTH_BOARD*HEIGHT_BOARD; i++) {
+
+	for (int i=0; i<WIDTH_BOARD*HEIGHT_BOARD; i++) {
     if(board[i]!=0) node->board[i]=board[i];
   }
 
@@ -61,7 +62,17 @@ void initBoard(Item *node, char *board) {
  * @param node node à évaluer
  * @return Boolean true fini ou false non fini
  */
-Boolean evaluateBoard(Item *node) {
+Boolean evaluateBoard(Item *node) 
+{
+
+  for (int i=0; i < WIDTH_BOARD - ALIGN_PAWN; i++) 
+  	for (int j=0; j < HEIGHT_BOARD - ALIGN_PAWN; j++)
+    { 
+    
+      // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
+    }
+
+  return true;
 }
 
 /**
@@ -91,5 +102,25 @@ Boolean isValidPosition( Item *node, int pos )
  */
 Item *getChildBoard( Item *node, int pos )
 {
-  
+  Item *child_p = NULL;
+
+	if ( isValidPosition(node, pos) == true )
+  {
+
+    /* allocate and init child node */
+    child_p = nodeAlloc() ;
+    initBoard(child_p, node->board) ;
+
+		/* Make move */
+    child_p->board[pos] = 1;
+    //printBoard(child_p) ;
+
+
+		/* link child to parent for backtrack */
+    child_p->parent = node;
+
+    child_p->depth = node->depth ++ ;
+  }
+
+  return child_p;
 }
