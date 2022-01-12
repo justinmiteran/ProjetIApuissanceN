@@ -49,7 +49,7 @@ void initBoard(Item *node, char *board) {
 	node->size = WIDTH_BOARD*HEIGHT_BOARD;
   node->board = calloc(WIDTH_BOARD*HEIGHT_BOARD, sizeof(char));
   
-	for (int i=0; i<MAX_BOARD; i++) {
+	for (int i=0; i< WIDTH_BOARD*HEIGHT_BOARD; i++) {
     if(board[i]!=0) node->board[i]=board[i];
   }
 
@@ -73,6 +73,13 @@ Boolean evaluateBoard(Item *node) {
  */
 Boolean isValidPosition( Item *node, int pos )
 {
+  int posI = pos%WIDTH_BOARD;
+  int posJ = pos/WIDTH_BOARD;
+
+  if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
+  if(node->board[posI+posJ*WIDTH_BOARD] != 0) return false;
+  if(posJ = HEIGHT_BOARD-1) return true;
+  if(node->board[posI+(posJ+1)*WIDTH_BOARD] != 0) return true;
 }
 
 /**
