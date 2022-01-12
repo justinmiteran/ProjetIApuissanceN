@@ -1,6 +1,7 @@
 #include "list.h"
 #include <math.h>
 #include "board.h"
+
 float minimax(Item* node, int depth, int player)
 {
   float value;
@@ -24,7 +25,7 @@ float minimax(Item* node, int depth, int player)
       value = 30000;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
-          Item child = getChildBoard(node,i);
+          Item* child = getChildBoard(node,i);
           if (child != NULL)
             value = (fminf(value,minimax(child, depth+1, 1)));// Min entre value  et les valeurs des enfants du noeud.
         }
