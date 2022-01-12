@@ -12,8 +12,8 @@ Item *initGame()
   int i;
   Item *node;
 
-	char *initial = (char*)malloc(MAX_BOARD*sizeof(char));
-	for (int i=0; i<MAX_BOARD; i++) initial[i] = 0;
+	char *initial = (char*)malloc(WIDTH_BOARD*HEIGHT_BOARD*sizeof(char));
+	for (int i=0; i<WIDTH_BOARD*HEIGHT_BOARD; i++) initial[i] = 0;
 
   node = nodeAlloc();
 	initBoard(node, initial);
@@ -28,14 +28,14 @@ void printBoard( Item *node )
 {
   assert(node);
 	printf("\n");
-	for (int j=0; j<WH_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
-	for (int i = 0 ; i < MAX_BOARD ; i++) {
-    if (i%WH_BOARD == 0) printf("|");
+	for (int j=0; j<HEIGHT_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
+	for (int i = 0 ; i < WIDTH_BOARD*HEIGHT_BOARD ; i++) {
+    if (i%WIDTH_BOARD == 0) printf("|");
     if (node->board[i] == 0) printf("   |");
     else printf("%2d |", node->board[i]);
-    if (((i+1)%WH_BOARD) == 0) {
+    if (((i+1)%WIDTH_BOARD) == 0) {
 			printf("\n");
-			for (int j=0; j<WH_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
+			for (int j=0; j<HEIGHT_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
 		}
   }
 	printf("\n");
@@ -46,8 +46,8 @@ void printBoard( Item *node )
 void initBoard(Item *node, char *board) {
 	assert( node );
 	
-	node->size = MAX_BOARD;
-  node->board = calloc(MAX_BOARD, sizeof(char));
+	node->size = WIDTH_BOARD*HEIGHT_BOARD;
+  node->board = calloc(WIDTH_BOARD*HEIGHT_BOARD, sizeof(char));
   
 	for (int i=0; i<MAX_BOARD; i++) {
     if(board[i]!=0) node->board[i]=board[i];
