@@ -1,10 +1,10 @@
 #include "list.h"
 #include <math.h>
-
+#include "board.h"
 float minimax(Item* node, int depth, int player)
 {
   float value;
-  if (depth = 0 or evaluateBoard(node)== True)
+  if (depth == 0 || evaluateBoard(node)== True)
     {
       return node->g;
     }
