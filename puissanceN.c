@@ -26,17 +26,18 @@ void showSolution( Item *goal )
   printf("Size of closed list = %d\n", closedList_p.numElements);
 }
 
-
+//TODO passer en player 1 2 (max = 1)
 float minimax(Item* node, int depth, int player)
 {
   float value;
   if (depth == 0 || evaluateBoard(node)== true)
     {
       return node->g;
+      //TODO modifier pour 1/-1/0
     }
   if (player == 2) // IA
     {
-      value =-30000;
+      value =-1;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
           Item* child = getChildBoard(node,i);
@@ -47,7 +48,7 @@ float minimax(Item* node, int depth, int player)
     }
   else // Joueur physique
     {
-      value = 30000;
+      value = 1;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
           Item* child = getChildBoard(node,i);
@@ -61,12 +62,43 @@ float minimax(Item* node, int depth, int player)
 
 
 //appel initial minimax(origin, depth, TRUE)
-void jeu(){
-  Item *cur_node, *child_p, *temp, *board;
-  int i;
-  board=initBoard()
+void jeu(Item* initialItem){
+  Item *cur_node, *child_p;
+  int joueur = 1;
 
+  while (evaluateBoard(initialItem)){
+    if(joueur == 1){
+      int posx, posy;
+      printf("saisir position x\n");
+      scanf("%d",&posx);
+      printf("saisir position y\n");
+      scanf("%d",&posy);
+      child_p = getChildBoard(initialItem,(posy-1)*WIDTH_BOARD+(posx-1));
+      if(child_p == NULL){
+        continue;
+      }
+      initialItem = child_p;
+    }
+    if(joueur == 2){
+      //TODO à vérifier
 
+      float value = -1;
+      int tmpValue;
+      for(int i = 0; i<HEIGHT_BOARD*WIDTH_BOARD; i++ ){
+        child_p = getChildBoard(initialItem,i);
+        if(child_p != NULL){
+          tmpValue = minimax(child_p,0,1);
+          if(tmpValue>=value){
+            cur_node = child_p;
+            value = tmpValue;
+          }
+        }
+      }
+      child_p = cur_node;
+    }
+    printBoard( initialItem );
+    joueur=(joueur)%2+1;
+  }
 }
 
 int main(int argc, char const *argv[])
@@ -79,6 +111,8 @@ int main(int argc, char const *argv[])
   Item *initial_state = initGame();
   printBoard( initial_state );
 
+
+  jeu(initial_state);
   /*int choix;
   printf("\nChoix de la taille du puissanceN  :\n ");
   scanf("%d", &choix);
@@ -91,5 +125,5 @@ int main(int argc, char const *argv[])
   /* clean lists */
   cleanupList( &openList_p );
   cleanupList( &closedList_p );
-    return 0;
+  return 0;
 }

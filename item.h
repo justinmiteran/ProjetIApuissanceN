@@ -13,6 +13,6 @@ typedef struct Item_s {
   struct Item_s *prev, *next; // needed for chained list 
 } Item;
 
-typedef enum {true,false} Boolean;
+typedef enum {false,true} Boolean;
 
 #endif 

@@ -73,7 +73,7 @@ Boolean evaluateBoard(Item *node)
       int pos = i*N+j;
 
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
-      if (node->board[pos] != NULL)
+      if (node->board[pos] != 0)
       {
         char cur = node->board[pos];
 
@@ -124,7 +124,7 @@ Boolean isValidPosition( Item *node, int pos )
 
   if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
   if(node->board[posI+posJ*WIDTH_BOARD] != 0) return false;
-  if(posJ = HEIGHT_BOARD-1) return true;
+  if(posJ == HEIGHT_BOARD-1) return true;
   if(node->board[posI+(posJ+1)*WIDTH_BOARD] != 0) return true;
 }
 
@@ -135,6 +135,7 @@ Boolean isValidPosition( Item *node, int pos )
  * @param pos position a modifier pour l'enfant
  * @return Item* enfant ou null si pas possible
  */
+//TODO passer joueur en paramêtre + edit make move
 Item *getChildBoard( Item *node, int pos )
 {
   Item *child_p = NULL;
@@ -148,8 +149,6 @@ Item *getChildBoard( Item *node, int pos )
 
 		/* Make move */
     child_p->board[pos] = 1;
-    //printBoard(child_p) ;
-
 
 		/* link child to parent for backtrack */
     child_p->parent = node;
