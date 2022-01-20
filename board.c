@@ -64,15 +64,50 @@ void initBoard(Item *node, char *board) {
  */
 Boolean evaluateBoard(Item *node) 
 {
+  Boolean test;
+  int N = WIDTH_BOARD*HEIGHT_BOARD;
 
-  for (int i=0; i < WIDTH_BOARD - ALIGN_PAWN; i++) 
-  	for (int j=0; j < HEIGHT_BOARD - ALIGN_PAWN; j++)
+  for (int j=0; j < HEIGHT_BOARD; j++) 
+  	for (int i=0; i < WIDTH_BOARD; i++)
     { 
-    
+      int pos = i*N+j;
+
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
+      if (node->board[pos] != NULL)
+      {
+        char cur = node->board[pos];
+
+        // test lignes
+        test = true;
+        
+        if (i < WIDTH_BOARD-ALIGN_PAWN)
+          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
+            if (node->board[(i+cpt)*N+j] != cur) test = false;
+        
+        if (test == true) return true;
+
+        // test diagonales
+        test = true;
+
+        if (i < WIDTH_BOARD-ALIGN_PAWN && j < HEIGHT_BOARD-ALIGN_PAWN)
+          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
+            if (node->board[(i+cpt)*N+(j+cpt)] != cur) test = false;
+
+        if (test == true) return true;
+
+        // test colonnes
+        test = true;
+
+        if (j < HEIGHT_BOARD-ALIGN_PAWN)
+          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
+            if (node->board[i*N+(j+cpt)] != cur) test = false;
+
+        if (test == true) return true;
+      } 
+      
     }
 
-  return true;
+  return false;
 }
 
 /**
@@ -84,7 +119,7 @@ Boolean evaluateBoard(Item *node)
  */
 Boolean isValidPosition( Item *node, int pos )
 {
-  int posI = pos%WIDTH_BOARD;
+  int posI = pos%HEIGHT_BOARD;
   int posJ = pos/WIDTH_BOARD;
 
   if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
