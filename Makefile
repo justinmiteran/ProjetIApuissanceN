@@ -1,10 +1,10 @@
 all: puissanceN puissanceN.o list.o
 
 list.o: list.c list.h
-	gcc -c list.c
+	gcc -c list.c -lm
 
 board.o: board.c board.h
-	gcc -c board.c
+	gcc -c board.c -lm
 
 puissanceN: puissanceN.c list.c board.h list.h item.h
-	gcc -o puissanceN puissanceN.c board.c list.c
+	gcc -o puissanceN puissanceN.c board.c list.c -lm
