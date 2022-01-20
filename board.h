@@ -4,9 +4,9 @@
 #define RANDOM()  ((float)rand() / (float)RAND_MAX)
 #define RANDMAX(x)  (int)((float)(x)*rand()/(RAND_MAX+1.0))
 
-//TODO fix non square board
-#define HEIGHT_BOARD 6 
-#define WIDTH_BOARD 6
+//TODO fix non square board // Normalement c'est bon
+#define HEIGHT_BOARD 6
+#define WIDTH_BOARD 7
 #define ALIGN_PAWN 4
 
 
@@ -18,5 +18,5 @@ void initBoard(Item *node, char *board);
 Item *getChildBoard( Item *node, int pos );
 
 Boolean evaluateBoard( Item *node );
-	
+
 void printBoard( Item *board );
