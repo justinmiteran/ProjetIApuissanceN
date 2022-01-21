@@ -30,7 +30,6 @@ void showSolution( Item *goal )
 float minimax(Item* node, int depth, int player)
 {
   float value;
-  printBoard(node);
   switch (evaluateBoard(node))
   {
     case 1:
