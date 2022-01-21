@@ -30,17 +30,23 @@ void showSolution( Item *goal )
 float minimax(Item* node, int depth, int player)
 {
   float value;
+  printBoard(node);
   switch (evaluateBoard(node))
   {
     case 1:
+     // printf("1: %d\n",evaluateBoard(node));
+     
       return -1;
 
     case 2:
+      //printf("2: %d\n",evaluateBoard(node));
       return 1;
     
     case 3:
+      //printf("3: %d\n",evaluateBoard(node));
       return 0;
   }
+  
   if (player == 1) // IA
     {
       value =-1;
@@ -100,7 +106,7 @@ void jeu(Item* initialItem){
           }
         }
       }
-      child_p = cur_node;
+      initialItem = cur_node;
     }
     printBoard( initialItem );
     joueur=(joueur)%2+1;

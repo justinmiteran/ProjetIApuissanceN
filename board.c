@@ -64,50 +64,57 @@ void initBoard(Item *node, char *board) {
  */
 int evaluateBoard(Item *node)
 {
+
   Boolean win, end = true;
-  int N = WIDTH_BOARD*HEIGHT_BOARD;
 
   for (int j=0; j < HEIGHT_BOARD; j++)
   	for (int i=0; i < WIDTH_BOARD; i++)
     {
-      int pos = i*N+j;
+      int pos = j*HEIGHT_BOARD+i;
+      printf("%d -- %d\n",pos, node->board[pos]);
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
+      //printf("%d", node->board[pos]);
       if (node->board[pos] != 0)
       {
-        char cur = node->board[pos];
+        int cur = node->board[pos];
 
         // test lignes
         win = true;
-
+        printf("test ligne");
         if (i < WIDTH_BOARD-ALIGN_PAWN)
         {
           for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
-            if (node->board[(i+cpt)*N+j] != cur) win = false;
-
-          if (win == true) return (int)cur +48; // ASCII -> value
-        }
+            {printf(" %d ",cpt);
+            if (node->board[j*HEIGHT_BOARD+(i+cpt)] != cur) win = false;
+            }
+          if (win == true) { printf("retrun, %d",cur);return cur ;} // ASCII -> value
+        }printf("\n");
           
         // test diagonales
         win = true;
-
+        printf("test diagonale");
         if (i < WIDTH_BOARD-ALIGN_PAWN && j < HEIGHT_BOARD-ALIGN_PAWN)
         {
-          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
-            if (node->board[(i+cpt)*N+(j+cpt)] != cur) win = false;
-
-          if (win == true) return (int)cur +48; // ASCII -> value
-        }
+          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++){
+            printf("%d",cpt);
+            if (node->board[(j+cpt)*HEIGHT_BOARD+(i+cpt)] != cur) win = false;
+}
+          if (win == true) { printf("retrun, %d",cur);return cur ;} // ASCII -> value
+        }printf("\n");
 
         // test colonnes
         win = true;
-
+        printf("test colonnes");
         if (j < HEIGHT_BOARD-ALIGN_PAWN)
         {
-          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
-            if (node->board[i*N+(j+cpt)] != cur) win = false;
-
-          if (win == true) return (int)cur +48; // ASCII -> value
-        }
+          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++){
+            printf("%d",cpt);
+            if (node->board[(j+cpt)*HEIGHT_BOARD+i] != cur) 
+            
+              win = false;
+            }
+          if (win == true) { printf("retrun, %d",cur); return cur ;} // ASCII -> value
+        }printf("\n");
 
       }
       else end = false;
@@ -156,7 +163,7 @@ Item *getChildBoard( Item *node, int pos, int joueur)
     initBoard(child_p, node->board) ;
 
 		/* Make move */
-    if (joueur =1)
+    if (joueur ==1)
       child_p->board[pos] = 1;
     else
       child_p->board[pos] = 2;
