@@ -30,11 +30,17 @@ void showSolution( Item *goal )
 float minimax(Item* node, int depth, int player)
 {
   float value;
-  if (depth == 0 || evaluateBoard(node)== true)
-    {
-      return node->g;
-      //TODO modifier pour 1/-1/0
-    }
+  switch (evaluateBoard(node))
+  {
+    case 1:
+      return -1;
+
+    case 2:
+      return 1;
+    
+    case 3:
+      return 0;
+  }
   if (player == 1) // IA
     {
       value =-1;
@@ -66,7 +72,7 @@ void jeu(Item* initialItem){
   Item *cur_node, *child_p;
   int joueur = 1;
 
-  while (evaluateBoard(initialItem)){
+  while (evaluateBoard(initialItem) == 0){
     if(joueur == 1){
       int posx, posy;
       printf("saisir position x\n");
