@@ -1,4 +1,4 @@
-all: puissanceN puissanceN.o list.o
+all: puissanceN puissanceN.o list.o board.o
 
 list.o: list.c list.h
 	gcc -c list.c -lm

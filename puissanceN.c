@@ -26,7 +26,7 @@ void showSolution( Item *goal )
   printf("Size of closed list = %d\n", closedList_p.numElements);
 }
 
-//TODO passer en player 1 2 (max = 1)
+
 float minimax(Item* node, int depth, int player)
 {
   float value;
@@ -35,14 +35,14 @@ float minimax(Item* node, int depth, int player)
       return node->g;
       //TODO modifier pour 1/-1/0
     }
-  if (player == 2) // IA
+  if (player == 1) // IA
     {
       value =-1;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
-          Item* child = getChildBoard(node,i);
+          Item* child = getChildBoard(node,i,2);
           if (child != NULL)
-            value = (fmaxf(value,minimax(child, depth+1, 1)));// Max entre value  et les valeurs des enfants du noeud.
+            value = (fmaxf(value,minimax(child, depth+1, 2)));// Max entre value  et les valeurs des enfants du noeud.
         }
       return value;
     }
@@ -51,7 +51,7 @@ float minimax(Item* node, int depth, int player)
       value = 1;
       for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) // on va parcourir tout les enfants du noeud
         {
-          Item* child = getChildBoard(node,i);
+          Item* child = getChildBoard(node,i,1);
           if (child != NULL)
             value = (fminf(value,minimax(child, depth+1, 1)));// Min entre value  et les valeurs des enfants du noeud.
         }
@@ -73,7 +73,7 @@ void jeu(Item* initialItem){
       scanf("%d",&posx);
       printf("saisir position y\n");
       scanf("%d",&posy);
-      child_p = getChildBoard(initialItem,(posy-1)*WIDTH_BOARD+(posx-1));
+      child_p = getChildBoard(initialItem,(posy-1)*WIDTH_BOARD+(posx-1),1);
       if(child_p == NULL){
         continue;
       }
@@ -85,7 +85,7 @@ void jeu(Item* initialItem){
       float value = -1;
       int tmpValue;
       for(int i = 0; i<HEIGHT_BOARD*WIDTH_BOARD; i++ ){
-        child_p = getChildBoard(initialItem,i);
+        child_p = getChildBoard(initialItem,i,2);
         if(child_p != NULL){
           tmpValue = minimax(child_p,0,1);
           if(tmpValue>=value){
