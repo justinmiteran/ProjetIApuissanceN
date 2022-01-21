@@ -60,11 +60,11 @@ void initBoard(Item *node, char *board) {
  * @brief evalue l'état du board pour savoir si il faut continuer
  *
  * @param node node à évaluer
- * @return Boolean true fini ou false non fini
+ * @return int : 0 = pas fini / 1 = j1 gagne / 2 = j2 gagne / 3 = match nul
  */
-Boolean evaluateBoard(Item *node)
+int evaluateBoard(Item *node)
 {
-  Boolean test;
+  Boolean win, end = true;
   int N = WIDTH_BOARD*HEIGHT_BOARD;
 
   for (int j=0; j < HEIGHT_BOARD; j++)
@@ -74,38 +74,49 @@ Boolean evaluateBoard(Item *node)
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
       if (node->board[pos] != 0)
       {
-        char cur = node->board[pos];
+        char *cur = node->board[pos];
+
         // test lignes
-        test = true;
+        win = true;
 
         if (i < WIDTH_BOARD-ALIGN_PAWN)
-          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
-            if (node->board[(i+cpt)*N+j] != cur) test = false;
+        {
+          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
+            if (node->board[(i+cpt)*N+j] != cur) win = false;
 
-        if (test == true) return true;
-
+          if (win == true) return (int)cur +48; // ASCII -> value
+        }
+          
         // test diagonales
-        test = true;
+        win = true;
 
         if (i < WIDTH_BOARD-ALIGN_PAWN && j < HEIGHT_BOARD-ALIGN_PAWN)
-          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
-            if (node->board[(i+cpt)*N+(j+cpt)] != cur) test = false;
+        {
+          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
+            if (node->board[(i+cpt)*N+(j+cpt)] != cur) win = false;
 
-        if (test == true) return true;
+          if (win == true) return (int)cur +48; // ASCII -> value
+        }
 
         // test colonnes
-        test = true;
+        win = true;
 
         if (j < HEIGHT_BOARD-ALIGN_PAWN)
-          for (int cpt=0; cpt < ALIGN_PAWN && test == true; cpt++)
-            if (node->board[i*N+(j+cpt)] != cur) test = false;
+        {
+          for (int cpt=0; cpt < ALIGN_PAWN && win == true; cpt++)
+            if (node->board[i*N+(j+cpt)] != cur) win = false;
 
-        if (test == true) return true;
+          if (win == true) return (int)cur +48; // ASCII -> value
+        }
+
       }
+      else end = false;
 
     }
 
-  return false;
+  if (end == true) return 3; // égalité 
+
+  return 0; // pas fini
 }
 
 /**

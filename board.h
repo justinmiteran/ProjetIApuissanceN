@@ -6,7 +6,7 @@
 
 //TODO fix non square board // Normalement c'est bon
 #define HEIGHT_BOARD 6
-#define WIDTH_BOARD 7
+#define WIDTH_BOARD 6
 #define ALIGN_PAWN 4
 
 
