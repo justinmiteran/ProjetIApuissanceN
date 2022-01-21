@@ -28,14 +28,14 @@ void printBoard( Item *node )
 {
   assert(node);
 	printf("\n");
-	for (int j=0; j<= HEIGHT_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
+	for (int j=0; j< WIDTH_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
 	for (int i = 0 ; i < WIDTH_BOARD*HEIGHT_BOARD ; i++) {
     if (i%WIDTH_BOARD == 0) printf("|");
     if (node->board[i] == 0) printf("   |");
     else printf("%2d |", node->board[i]);
     if (((i+1)%WIDTH_BOARD) == 0) {
 			printf("\n");
-			for (int j=0; j<= HEIGHT_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
+			for (int j=0; j< WIDTH_BOARD; j++) if (j==0) printf(" ___"); else printf("____"); printf("\n");
 		}
   }
 	printf("\n");
@@ -144,8 +144,7 @@ Boolean isValidPosition( Item *node, int pos )
  * @param pos position a modifier pour l'enfant
  * @return Item* enfant ou null si pas possible
  */
-//TODO passer joueur en paramêtre + edit make move
-Item *getChildBoard( Item *node, int pos )
+Item *getChildBoard( Item *node, int pos, int joueur)
 {
   Item *child_p = NULL;
 
@@ -157,7 +156,10 @@ Item *getChildBoard( Item *node, int pos )
     initBoard(child_p, node->board) ;
 
 		/* Make move */
-    child_p->board[pos] = 1;
+    if (joueur =1)
+      child_p->board[pos] = 1;
+    else
+      child_p->board[pos] = 2;
 
 		/* link child to parent for backtrack */
     child_p->parent = node;
