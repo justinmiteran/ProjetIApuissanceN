@@ -17,6 +17,6 @@ void initBoard(Item *node, char *board);
 
 Item *getChildBoard( Item *node, int pos , int joueur);
 
-Boolean evaluateBoard( Item *node );
+int evaluateBoard( Item *node );
 
 void printBoard( Item *board );

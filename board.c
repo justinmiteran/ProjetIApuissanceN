@@ -74,7 +74,7 @@ int evaluateBoard(Item *node)
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
       if (node->board[pos] != 0)
       {
-        char *cur = node->board[pos];
+        char cur = node->board[pos];
 
         // test lignes
         win = true;
