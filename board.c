@@ -64,13 +64,13 @@ void initBoard(Item *node, char *board) {
  */
 int evaluateBoard(Item *node)
 {
-
   Boolean win, end = true;
 
   for (int j=0; j < HEIGHT_BOARD; j++)
+  {
   	for (int i=0; i < WIDTH_BOARD; i++)
     {
-      int pos = j*HEIGHT_BOARD+i;
+      int pos = j*WIDTH_BOARD+i;
       
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
       //printf("%d", node->board[pos]);
@@ -83,7 +83,8 @@ int evaluateBoard(Item *node)
         if (i <= WIDTH_BOARD-ALIGN_PAWN)
         {
           for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
-            if (node->board[j*HEIGHT_BOARD+(i+cpt)] != cur) win = false;
+            if (node->board[j*WIDTH_BOARD+(i+cpt)] != cur) 
+              win = false;
             
           if (win == true) return cur ;// ASCII -> value
         }
@@ -93,8 +94,8 @@ int evaluateBoard(Item *node)
         if (i <= WIDTH_BOARD-ALIGN_PAWN && j <= HEIGHT_BOARD-ALIGN_PAWN)
         {
           for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
-            
-            if (node->board[(j+cpt)*HEIGHT_BOARD+(i+cpt)] != cur) win = false;
+            if (node->board[(j+cpt)*WIDTH_BOARD+(i+cpt)] != cur) 
+              win = false;
           if (win == true) return cur ;// ASCII -> value
         }
 
@@ -103,16 +104,16 @@ int evaluateBoard(Item *node)
         if (j <= HEIGHT_BOARD-ALIGN_PAWN)
         {
           for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
-            if (node->board[(j+cpt)*HEIGHT_BOARD+i] != cur) 
+            if (node->board[(j+cpt)*WIDTH_BOARD+i] != cur) 
               win = false;
           if (win == true)  return cur ; // ASCII -> value
 
-       }
-     }
+        }
+      }
       else end = false;
 
     }
-
+  }
   if (end == true) return 3; // égalité 
 
   return 0; // pas fini
@@ -127,7 +128,7 @@ int evaluateBoard(Item *node)
  */
 Boolean isValidPosition( Item *node, int pos )
 {
-  int posI = pos%HEIGHT_BOARD;
+  int posI = pos%WIDTH_BOARD;
   int posJ = pos/WIDTH_BOARD;
 
   if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
