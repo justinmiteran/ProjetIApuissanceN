@@ -73,7 +73,6 @@ int evaluateBoard(Item *node)
       int pos = j*WIDTH_BOARD+i;
       
       // si on trouve un 1 ou un 2, vérifier ligne colonne et diagonale
-      //printf("%d", node->board[pos]);
       if (node->board[pos] != 0)
       {
         int cur = node->board[pos];
@@ -86,17 +85,32 @@ int evaluateBoard(Item *node)
             if (node->board[j*WIDTH_BOARD+(i+cpt)] != cur) 
               win = false;
             
-          if (win == true) return cur ;// ASCII -> value
+          if (win == true) return cur;
+          
         }
           
-        // test diagonales
+        // test diagonale 1
         win = true;
         if (i <= WIDTH_BOARD-ALIGN_PAWN && j <= HEIGHT_BOARD-ALIGN_PAWN)
         {
           for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
             if (node->board[(j+cpt)*WIDTH_BOARD+(i+cpt)] != cur) 
               win = false;
-          if (win == true) return cur ;// ASCII -> value
+
+          if (win == true) return cur;
+          
+        }
+
+        // test diagonale 2
+        win = true;
+        if (i >= ALIGN_PAWN-1 && j <= HEIGHT_BOARD-ALIGN_PAWN)
+        {
+          for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
+            if (node->board[(j+cpt)*WIDTH_BOARD+(i-cpt)] != cur) 
+              win = false;
+
+          if (win == true) return cur;
+          
         }
 
         // test colonnes
@@ -106,8 +120,9 @@ int evaluateBoard(Item *node)
           for (int cpt=1; cpt < ALIGN_PAWN && win == true; cpt++)
             if (node->board[(j+cpt)*WIDTH_BOARD+i] != cur) 
               win = false;
-          if (win == true)  return cur ; // ASCII -> value
 
+          if (win == true) return cur;
+         
         }
       }
       else end = false;
