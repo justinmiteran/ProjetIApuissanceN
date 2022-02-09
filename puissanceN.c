@@ -97,7 +97,7 @@ float minimaxOpti(Item* node, int depth, int player)
     }
     if (player == 1) { // IA
         value = -1;
-        for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++) {// on va parcourir tout les enfants du noeud
+        for (int i=0;i<WIDTH_BOARD;i++) {// on va parcourir tout les enfants du noeud
             Item* child = getChildBoard(node,i,2);
             if (child != NULL){
                 value = (fmaxf(value,minimaxOpti(child, depth+1, 2)));// Max entre value  et les valeurs des enfants du noeud.
@@ -108,7 +108,7 @@ float minimaxOpti(Item* node, int depth, int player)
     else { // Joueur physique
     
         value = 1;
-        for (int i=0;i<WIDTH_BOARD*HEIGHT_BOARD;i++){ // on va parcourir tout les enfants du noeud
+        for (int i=0;i<WIDTH_BOARD;i++){ // on va parcourir tout les enfants du noeud
             Item* child = getChildBoard(node,i,1);
             if (child != NULL){
                 value = (fminf(value,minimaxOpti(child, depth+1, 1)));// Min entre value  et les valeurs des enfants du noeud.
@@ -127,12 +127,10 @@ void jeu(Item* initialItem){
 
     while (evaluateBoard(initialItem) == 0){
         if(joueur == 1){
-            int posx, posy;
-            printf("saisir position x\n");
-            scanf("%d",&posx);
-            printf("saisir position y\n");
-            scanf("%d",&posy);
-            child_p = getChildBoard(initialItem,(posy-1)*WIDTH_BOARD+(posx-1),1);
+            int pos;
+            printf("saisir position\n");
+            scanf("%d",&pos);
+            child_p = getChildBoard(initialItem,pos-1,1);
             if(child_p == NULL){
                 continue;
             }
@@ -143,12 +141,12 @@ void jeu(Item* initialItem){
 
             float value = -1;
             float tmpValue;
-            for(int i = 0; i<HEIGHT_BOARD*WIDTH_BOARD; i++ ){
+            for(int i = 0; i<WIDTH_BOARD; i++ ){
                 child_p = getChildBoard(initialItem,i,2);
                 if(child_p != NULL){
                     //tmpValue = minimax(child_p,0,2);
                     tmpValue = minimaxOpti(child_p,0,2);
-                    printf("%d - value : %f\n",i, tmpValue);
+                    //printf("%d - value : %f\n",i, tmpValue);
                     if(tmpValue>=value){
                         cur_node = child_p;
                         value = tmpValue;

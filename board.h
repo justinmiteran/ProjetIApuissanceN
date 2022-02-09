@@ -6,7 +6,7 @@
 
 
 #define HEIGHT_BOARD 4
-#define WIDTH_BOARD 5
+#define WIDTH_BOARD 4
 #define ALIGN_PAWN 3
 
 
