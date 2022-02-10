@@ -143,14 +143,24 @@ int evaluateBoard(Item *node)
  */
 Boolean isValidPosition( Item *node, int pos )
 {
-  int posI = pos%WIDTH_BOARD;
-  int posJ = pos/WIDTH_BOARD;
-
-  if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
-  if(node->board[posI+posJ*WIDTH_BOARD] != 0) return false;
-  if(posJ == HEIGHT_BOARD-1) return true;
-  if(node->board[posI+(posJ+1)*WIDTH_BOARD] != 0) return true;
+    if(pos<0 || pos>WIDTH_BOARD*HEIGHT_BOARD) return false;
+    return true;
 }
+
+/**
+ * @brief recupere la position x,y à partir d'une position x
+ * 
+ * @param node node courante
+ * @param pos position de la colone
+ * @return int position en ligne par colonne
+ */
+int getBoardPos(Item *node,int pos){
+    for (int i = HEIGHT_BOARD-1; i >= 0; i--){
+        if(node->board[pos+i*WIDTH_BOARD] == 0) return pos+i*WIDTH_BOARD;
+    }
+    return -1;
+}
+
 
 /**
  * @brief créer un enfant pour une position donée
@@ -161,26 +171,23 @@ Boolean isValidPosition( Item *node, int pos )
  */
 Item *getChildBoard( Item *node, int pos, int joueur)
 {
-  Item *child_p = NULL;
+    Item *child_p = NULL;
+    pos = getBoardPos(node,pos);
+	if ( isValidPosition(node, pos) == true ){
 
-	if ( isValidPosition(node, pos) == true )
-  {
+        /* allocate and init child node */
+        child_p = nodeAlloc() ;
+        initBoard(child_p, node->board) ;
 
-    /* allocate and init child node */
-    child_p = nodeAlloc() ;
-    initBoard(child_p, node->board) ;
+	    /* Make move */
+        if (joueur ==1) child_p->board[pos] = 1;
+        else child_p->board[pos] = 2;
 
-		/* Make move */
-    if (joueur ==1)
-      child_p->board[pos] = 1;
-    else
-      child_p->board[pos] = 2;
+	    /* link child to parent for backtrack */
+        child_p->parent = node;
 
-		/* link child to parent for backtrack */
-    child_p->parent = node;
-
-    child_p->depth = node->depth ++ ;
-  }
+        child_p->depth = node->depth ++ ;
+    }
 
   return child_p;
 }
