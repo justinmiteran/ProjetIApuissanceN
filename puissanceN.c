@@ -34,18 +34,18 @@ float minimax(Item* node, int depth, int player)
   {
     case 1:
      // printf("1: %d\n",evaluateBoard(node));
-     
+
       return -1;
 
     case 2:
       //printf("2: %d\n",evaluateBoard(node));
       return 1;
-    
+
     case 3:
       //printf("3: %d\n",evaluateBoard(node));
       return 0;
   }
-  
+
   if (player == 1) // IA
     {
       value =-1;
@@ -73,11 +73,11 @@ float minimax(Item* node, int depth, int player)
 
 /**
  * @brief minimax with euristique based on victory %
- * 
- * @param node 
- * @param depth 
- * @param player 
- * @return float 
+ *
+ * @param node
+ * @param depth
+ * @param player
+ * @return float
  */
 float minimaxOpti(Item* node, int depth, int player)
 {
@@ -90,7 +90,7 @@ float minimaxOpti(Item* node, int depth, int player)
     case 2:
         //printf("2: %d\n",evaluateBoard(node));
         return 1;
-    
+
     case 3:
         //printf("3: %d\n",evaluateBoard(node));
         return 0;
@@ -106,7 +106,7 @@ float minimaxOpti(Item* node, int depth, int player)
         return value*0.9;
     }
     else { // Joueur physique
-    
+
         value = 1;
         for (int i=0;i<WIDTH_BOARD;i++){ // on va parcourir tout les enfants du noeud
             Item* child = getChildBoard(node,i,1);
@@ -119,7 +119,58 @@ float minimaxOpti(Item* node, int depth, int player)
     }
 }
 
+float alphabeta(Item* node, float alpha, float beta, int player)
+{
+  float value;
+  switch (evaluateBoard(node)){
+  case 1:
+       // printf("1: %d\n",evaluateBoard(node));
+      return -1;
 
+  case 2:
+      //printf("2: %d\n",evaluateBoard(node));
+      return 1;
+
+  case 3:
+      //printf("3: %d\n",evaluateBoard(node));
+      return 0;
+  }
+  if (player == 1) { // IA
+      value = -1;
+      for (int i=0;i<WIDTH_BOARD;i++) {// on va parcourir tout les enfants du noeud
+          Item* child = getChildBoard(node,i,2);
+          if (child != NULL){
+              value = fmaxf(value,alphabeta(child,alpha,beta,2));// Max entre value  et les valeurs des enfants du noeud.
+              if (value >= beta)
+              {
+                //printf("value2: %f \n",value);
+                return value;
+              }
+
+              alpha = fmaxf(alpha,value);
+          }
+      }
+      return value*1.2;
+  }
+  else { // Joueur physique
+
+      value = 1;
+      for (int i=0;i<WIDTH_BOARD;i++){ // on va parcourir tout les enfants du noeud
+          Item* child = getChildBoard(node,i,1);
+          if (child != NULL){
+              value = fminf(value,alphabeta(child,alpha,beta,1));// Max entre value  et les valeurs des enfants du noeud.
+              if (alpha >= value)
+              {
+                //printf("value1: %f \n",value);
+                return value;
+              }
+              beta = fminf(beta,value);
+          }
+      }
+      return value*1.2;
+
+  }
+}
 //appel initial minimax(origin, depth, TRUE)
 void jeu(Item* initialItem){
     Item *cur_node, *child_p;
@@ -145,7 +196,8 @@ void jeu(Item* initialItem){
                 child_p = getChildBoard(initialItem,i,2);
                 if(child_p != NULL){
                     //tmpValue = minimax(child_p,0,2);
-                    tmpValue = minimaxOpti(child_p,0,2);
+                    //tmpValue = minimaxOpti(child_p,0,2);
+                    tmpValue = alphabeta(child_p,-1,1,2);
                     //printf("%d - value : %f\n",i, tmpValue);
                     if(tmpValue>=value){
                         cur_node = child_p;
