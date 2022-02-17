@@ -6,7 +6,7 @@ struct Item_s;
 typedef struct Item_s {
   char size; // size of board (< 255)
 	char *board; // board is an array of small int
-	int lastPos;
+	int lastPos; 
 	float f, g, h; // cost, heuristic, ...
   int depth;
   struct Item_s *parent; // needed for tree structure in game search
