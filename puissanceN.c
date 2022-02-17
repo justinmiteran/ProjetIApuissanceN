@@ -198,7 +198,8 @@ void jeu(Item* initialItem){
                     //tmpValue = minimax(child_p,0,2);
                     //tmpValue = minimaxOpti(child_p,0,2);
                     tmpValue = alphabeta(child_p,-1,1,2);
-                    //printf("%d - value : %f\n",i, tmpValue);
+                    tmpValue = minimaxOpti(child_p,0,2);
+                    printf("%d - value : %f\n",i, tmpValue);
                     if(tmpValue>=value){
                         cur_node = child_p;
                         value = tmpValue;
