@@ -119,7 +119,7 @@ float minimaxOpti(Item* node, int depth, int player)
     }
 }
 
-float alphabeta(Item* node, float alpha, float beta, int player)
+float alphabeta(Item* node, float alpha, float beta,int depth, int player)
 {
   float value;
   switch (evaluateBoard(node)){
@@ -140,7 +140,7 @@ float alphabeta(Item* node, float alpha, float beta, int player)
       for (int i=0;i<WIDTH_BOARD;i++) {// on va parcourir tout les enfants du noeud
           Item* child = getChildBoard(node,i,2);
           if (child != NULL){
-              value = fmaxf(value,alphabeta(child,alpha,beta,2));// Max entre value  et les valeurs des enfants du noeud.
+              value = fmaxf(value,alphabeta(child,alpha,beta,depth+1,2));// Max entre value  et les valeurs des enfants du noeud.
               if (value >= beta)
               {
                 //printf("value2: %f \n",value);
@@ -148,9 +148,10 @@ float alphabeta(Item* node, float alpha, float beta, int player)
               }
 
               alpha = fmaxf(alpha,value);
+              if(depth>5){return 0;}
           }
       }
-      return value*1.2;
+      return value*0.9;
   }
   else { // Joueur physique
 
@@ -158,16 +159,17 @@ float alphabeta(Item* node, float alpha, float beta, int player)
       for (int i=0;i<WIDTH_BOARD;i++){ // on va parcourir tout les enfants du noeud
           Item* child = getChildBoard(node,i,1);
           if (child != NULL){
-              value = fminf(value,alphabeta(child,alpha,beta,1));// Max entre value  et les valeurs des enfants du noeud.
+              value = fminf(value,alphabeta(child,alpha,beta,depth+1,1));// Max entre value  et les valeurs des enfants du noeud.
               if (alpha >= value)
               {
                 //printf("value1: %f \n",value);
                 return value;
               }
               beta = fminf(beta,value);
+              if(depth>5){return 0;}
           }
       }
-      return value*1.2;
+      return value*0.9;
 
   }
 }
@@ -197,8 +199,8 @@ void jeu(Item* initialItem){
                 if(child_p != NULL){
                     //tmpValue = minimax(child_p,0,2);
                     //tmpValue = minimaxOpti(child_p,0,2);
-                    tmpValue = alphabeta(child_p,-1,1,2);
-                    tmpValue = minimaxOpti(child_p,0,2);
+                    tmpValue = alphabeta(child_p,-1,1,0,2);
+                    //tmpValue = minimaxOpti(child_p,0,2);
                     printf("%d - value : %f\n",i, tmpValue);
                     if(tmpValue>=value){
                         cur_node = child_p;
