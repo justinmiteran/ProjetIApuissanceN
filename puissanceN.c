@@ -224,21 +224,42 @@ int main(int argc, char const *argv[])
     initList(&openList_p);
     initList(&closedList_p);
 
+    int choix; Boolean choixValide = false;
+    do
+    {
+        printf("\nChoix de la taille du puissanceN :\n1 = Taille 6*7\n2 = Taille 7*8\n3 = Taille 8*9\n");
+        scanf("%d", &choix);
 
+        switch (choix) // TODO affecter les valeur à WIDTH_BOARD et HEIGHT_BOARD
+        {
+          case 1:
+            printf("Largeur = 6\nHauteur = 7\n");
+            choixValide = true;
+            
+            break;
+
+          case 2:
+            printf("Largeur = 7\nHauteur = 8\n");
+            choixValide = true;
+            
+            break;
+
+          case 3:
+            printf("Largeur = 8\nHauteur = 9\n");
+            choixValide = true;
+            
+            break;
+        }
+    }
+    while(!choixValide);
+
+    
     printf("\nInitial:");
     Item *initial_state = initGame();
     printBoard( initial_state );
 
-
     jeu(initial_state);
-    /*int choix;
-    printf("\nChoix de la taille du puissanceN  :\n ");
-    scanf("%d", &choix);
-    //ALIGN_PAWN =choix;*/
 
-
-    //on continue la prtie tant que evaluateBoard est false // True = victoire
-    //while evaluateBoard() == false
 
     /* clean lists */
     cleanupList( &openList_p );

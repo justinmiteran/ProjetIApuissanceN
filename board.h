@@ -5,8 +5,8 @@
 #define RANDMAX(x)  (int)((float)(x)*rand()/(RAND_MAX+1.0))
 
 
-#define HEIGHT_BOARD 6
-#define WIDTH_BOARD 7
+#define HEIGHT_BOARD 8
+#define WIDTH_BOARD 9
 #define ALIGN_PAWN 4
 
 

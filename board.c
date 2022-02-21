@@ -104,14 +104,12 @@ int evaluateBoard(Item *node)
     if (node->board[posJ * WIDTH_BOARD + (posI - i)] == cur)
       cpt++;
     else
-      cpt = ALIGN_PAWN + 1;
+      cpt = ALIGN_PAWN + 1; // pour sortir du for sans booléen
   }
 
   if (cpt == ALIGN_PAWN)
-  {
-    // printf("win lign joueur %d \n", cur);
     return cur;
-  }
+  
 
   // colonnes
   cpt = 1;
@@ -130,14 +128,12 @@ int evaluateBoard(Item *node)
     if (node->board[(posJ - i) * WIDTH_BOARD + posI] == cur)
       cpt++;
     else
-      cpt = ALIGN_PAWN + 1;
+      cpt = ALIGN_PAWN + 1; // pour sortir du for sans booléen
   }
   
   if (cpt == ALIGN_PAWN)
-  {
-    // printf("win col joueur %d \n", cur);
     return cur;
-  }
+  
 
   // diagonale 1
   cpt = 1;
@@ -156,14 +152,12 @@ int evaluateBoard(Item *node)
     if (node->board[(posJ - i) * WIDTH_BOARD + (posI - i)] == cur)
       cpt++;
     else
-      cpt = ALIGN_PAWN + 1;
+      cpt = ALIGN_PAWN + 1; // pour sortir du for sans booléen
   }
 
   if (cpt == ALIGN_PAWN)
-  {
-    // printf("win diag1 joueur %d \n", cur);
     return cur;
-  }
+  
 
   // diagonale 2
   cpt = 1;
@@ -182,14 +176,12 @@ int evaluateBoard(Item *node)
     if (node->board[(posJ + i) * WIDTH_BOARD + (posI - i)] == cur)
       cpt++;
     else
-      cpt = ALIGN_PAWN + 1;
+      cpt = ALIGN_PAWN + 1; // pour sortir du for sans booléen
   }
 
   if (cpt == ALIGN_PAWN)
-  {
-    // printf("win diag2 joueur %d \n", cur);
     return cur;
-  }
+  
 
   // égalité ?
   for (int i = 0; i < WIDTH_BOARD && end == true; i++)
