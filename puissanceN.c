@@ -173,43 +173,46 @@ float alphabeta(Item* node, float alpha, float beta,int depth, int player)
 
   }
 }
+
+Item* tour(Item* node, int pos){
+    // joueur physique
+    Item *cur_node, *child_p;
+    child_p = getChildBoard(node,pos-1,1);
+    if(child_p == NULL){
+        return NULL;
+    }
+    node = child_p;
+
+    // IA
+    float value = -1;
+    float tmpValue;
+    for(int i = 0; i<WIDTH_BOARD; i++ ){
+        child_p = getChildBoard(node,i,2);
+            if(child_p != NULL){
+                //tmpValue = minimax(child_p,0,2);
+                //tmpValue = minimaxOpti(child_p,0,2);
+                tmpValue = alphabeta(child_p,-1,1,0,2);
+                //tmpValue = minimaxOpti(child_p,0,2);
+                printf("%d - value : %f\n",i, tmpValue);
+                if(tmpValue>=value){
+                    cur_node = child_p;
+                    value = tmpValue;
+                }
+            }
+    }
+    return cur_node;
+
+}
 //appel initial minimax(origin, depth, TRUE)
 void jeu(Item* initialItem){
     Item *cur_node, *child_p;
     int joueur = 1;
 
     while (evaluateBoard(initialItem) == 0){
-        if(joueur == 1){
-            int pos;
-            printf("saisir position\n");
-            scanf("%d",&pos);
-            child_p = getChildBoard(initialItem,pos-1,1);
-            if(child_p == NULL){
-                continue;
-            }
-            initialItem = child_p;
-        }
-        if(joueur == 2){
-            //TODO à vérifier
-
-            float value = -1;
-            float tmpValue;
-            for(int i = 0; i<WIDTH_BOARD; i++ ){
-                child_p = getChildBoard(initialItem,i,2);
-                if(child_p != NULL){
-                    //tmpValue = minimax(child_p,0,2);
-                    //tmpValue = minimaxOpti(child_p,0,2);
-                    tmpValue = alphabeta(child_p,-1,1,0,2);
-                    //tmpValue = minimaxOpti(child_p,0,2);
-                    printf("%d - value : %f\n",i, tmpValue);
-                    if(tmpValue>=value){
-                        cur_node = child_p;
-                        value = tmpValue;
-                    }
-                }
-            }
-            initialItem = cur_node;
-        }
+        int pos;
+        printf("saisir position\n");
+        scanf("%d",&pos);
+        initialItem = tour(initialItem, pos);
         printBoard( initialItem );
         joueur=(joueur)%2+1;
     }
