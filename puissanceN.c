@@ -7,6 +7,7 @@
 #include <assert.h>
 
 list_t openList_p, closedList_p;
+short WIDTH_BOARD, HEIGHT_BOARD;
 
 void showSolution( Item *goal )
 {
@@ -233,25 +234,36 @@ int main(int argc, char const *argv[])
         switch (choix) // TODO affecter les valeur à WIDTH_BOARD et HEIGHT_BOARD
         {
           case 1:
-            printf("Largeur = 6\nHauteur = 7\n");
+            printf("Largeur = 7\nHauteur = 6\n");
             choixValide = true;
-            
+
+            WIDTH_BOARD = 7;
+            HEIGHT_BOARD = 6;
+
             break;
 
           case 2:
-            printf("Largeur = 7\nHauteur = 8\n");
+            printf("Largeur = 8\nHauteur = 7\n");
             choixValide = true;
             
+            WIDTH_BOARD = 8;
+            HEIGHT_BOARD = 7;
+
             break;
 
           case 3:
-            printf("Largeur = 8\nHauteur = 9\n");
+            printf("Largeur = 9\nHauteur = 8\n");
             choixValide = true;
             
+            WIDTH_BOARD = 9;
+            HEIGHT_BOARD = 8;
+
             break;
         }
     }
     while(!choixValide);
+
+    getSizeBoard(WIDTH_BOARD, HEIGHT_BOARD);
 
     
     printf("\nInitial:");

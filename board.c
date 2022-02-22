@@ -5,6 +5,13 @@
 #include <math.h>
 #include "board.h"
 
+short WIDTH_BOARD, HEIGHT_BOARD;
+void getSizeBoard(short width, short height)
+{
+  WIDTH_BOARD =  width;
+  HEIGHT_BOARD = height;
+}
+
 // Initialize a new Game for the nQueens problem: an empty board..
 Item *initGame()
 {
