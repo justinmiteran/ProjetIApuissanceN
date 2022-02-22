@@ -206,16 +206,21 @@ Item* tour(Item* node, int pos){
 }
 //appel initial minimax(origin, depth, TRUE)
 void jeu(Item* initialItem){
-    Item *cur_node, *child_p;
+    Item *cur_node, *child_p, *tmp;
     int joueur = 1;
 
     while (evaluateBoard(initialItem) == 0){
         int pos;
         printf("saisir position\n");
         scanf("%d",&pos);
-        initialItem = tour(initialItem, pos);
-        printBoard( initialItem );
-        joueur=(joueur)%2+1;
+        tmp = tour(initialItem, pos);
+        
+        if (tmp != NULL)
+        {
+          initialItem = tmp;          
+          printBoard( initialItem );
+          joueur=(joueur)%2+1;
+        }
     }
     printf("gagnant %d\n",evaluateBoard(initialItem));
 }

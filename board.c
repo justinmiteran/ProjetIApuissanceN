@@ -224,7 +224,7 @@ Boolean isValidPosition(Item *node, int pos)
  */
 int getBoardPos(Item *node, int pos)
 {
-  for (int i = HEIGHT_BOARD - 1; i >= 0; i--)
+  for (int i = HEIGHT_BOARD - 1; i >= 0 && pos + i * WIDTH_BOARD < WIDTH_BOARD * HEIGHT_BOARD; i--)
   {
     if (node->board[pos + i * WIDTH_BOARD] == 0)
       return pos + i * WIDTH_BOARD;
@@ -243,9 +243,9 @@ Item *getChildBoard(Item *node, int pos, int joueur)
 {
   Item *child_p = NULL;
   pos = getBoardPos(node, pos);
+  
   if (isValidPosition(node, pos) == true)
   {
-
     /* allocate and init child node */
     child_p = nodeAlloc();
     initBoard(child_p, node->board);
