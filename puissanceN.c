@@ -184,35 +184,42 @@ Item* tour(Item* node, int pos){
     }
     node = child_p;
 
-    // IA
-    float value = -1;
-    float tmpValue;
-    for(int i = 0; i<WIDTH_BOARD; i++ ){
-        child_p = getChildBoard(node,i,2);
-            if(child_p != NULL){
-                //tmpValue = minimax(child_p,0,2);
-                //tmpValue = minimaxOpti(child_p,0,2);
-                tmpValue = alphabeta(child_p,-1,1,0,2);
-                //tmpValue = minimaxOpti(child_p,0,2);
-                printf("%d - value : %f\n",i, tmpValue);
-                if(tmpValue>=value){
-                    cur_node = child_p;
-                    value = tmpValue;
-                }
-            }
+    if (evaluateBoard(node) == 0)
+    {
+      // IA
+      float value = -1;
+      float tmpValue;
+      for(int i = 0; i<WIDTH_BOARD; i++ ){
+          child_p = getChildBoard(node,i,2);
+              if(child_p != NULL){
+                  //tmpValue = minimax(child_p,0,2);
+                  //tmpValue = minimaxOpti(child_p,0,2);
+                  tmpValue = alphabeta(child_p,-1,1,0,2);
+                  //tmpValue = minimaxOpti(child_p,0,2);
+                  printf("%d - value : %f\n",i, tmpValue);
+                  if(tmpValue>=value){
+                      cur_node = child_p;
+                      value = tmpValue;
+                  }
+              }
+      }
     }
+    else
+      return node;
+    
     return cur_node;
 
 }
 //appel initial minimax(origin, depth, TRUE)
 void jeu(Item* initialItem){
-    Item *cur_node, *child_p, *tmp;
+    Item *child_p, *tmp;
     int joueur = 1;
 
     while (evaluateBoard(initialItem) == 0){
         int pos;
         printf("saisir position\n");
         scanf("%d",&pos);
+        
         tmp = tour(initialItem, pos);
         
         if (tmp != NULL)
